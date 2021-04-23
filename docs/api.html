@@ -1,0 +1,1342 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API &#8212; Jenni  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples/index.html" />
+    <link rel="prev" title="Security" href="security.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="folders">
+<h2>Folders<a class="headerlink" href="#folders" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rootfolderbase">
+<h3>RootFolderBase<a class="headerlink" href="#rootfolderbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.RootFolderBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">RootFolderBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.RootFolderBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the pre-existing root folder in Jenkins below which jobs/folders are created.
+Has an empty name.</p>
+<dl class="py method">
+<dt id="jenni.models.RootFolderBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.RootFolderBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> -- URL to the (possibly toplevel) Folder on the Jenkins server that this class represents.</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.FolderBase" title="jenni.models.FolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.FolderBase</span></code></a> <code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.RootFolderBase.pythonpipelinejob_inside_node_wrapper">
+<em class="property">abstract </em><code class="sig-name descname">pythonpipelinejob_inside_node_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase" title="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase">jenni.models.pythonpipelinejobbase.PythonPipelineJobBase</a></span></em>, <em class="sig-param"><span class="n">groovy_code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.pythonpipelinejob_inside_node_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.RootFolderBase.pythonpipelinejob_inside_node_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures appropriate code is executed around all code inside the node step.
+:param job:
+:param groovy_code:
+:return: groovy_code with preamble and postamble code</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.RootFolderBase.pythonpipelinejob_main_wrapper">
+<code class="sig-name descname">pythonpipelinejob_main_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase" title="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase">jenni.models.pythonpipelinejobbase.PythonPipelineJobBase</a></span></em>, <em class="sig-param"><span class="n">groovy_code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.pythonpipelinejob_main_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.RootFolderBase.pythonpipelinejob_main_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.RootFolderBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.RootFolderBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root folder already exists on the Jenkins server, so this is a no-op.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="folderbase">
+<h3>FolderBase<a class="headerlink" href="#folderbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.FolderBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">FolderBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.FolderBase.add_new_folder">
+<code class="sig-name descname">add_new_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_folder</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.folderbase.FolderBase" title="jenni.models.folderbase.FolderBase">jenni.models.folderbase.FolderBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.add_new_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.add_new_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a sub-folder has been added to this folder.
+The sub-folder can be customised by overriding this method.
+Note yield_items() is not yet called on this job.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.add_new_job">
+<code class="sig-name descname">add_new_job</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.add_new_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.add_new_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a job has been added to this folder.
+The job can be customised by overriding this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.sub_item_completed_handler">
+<code class="sig-name descname">sub_item_completed_handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.sub_item_completed_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.sub_item_completed_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a sub-item has been added to this folder
+and all yielding has completed for it.
+The item can be customised by overriding this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.yield_items">
+<code class="sig-name descname">yield_items</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module_name_to_load</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.yield_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield this folder and any items generated by python files below this folder.
+Overwrite in subclasses to dynamically generate items, but always insert this:
+<code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span> <span class="pre">super().yield_items(module_name_to_load)</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.yield_items_post_sub_item">
+<code class="sig-name descname">yield_items_post_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items_post_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.yield_items_post_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after sub_item.yield_items() has been called.
+:param sub_item: the sub-item of this folder, just after calling yield_items on it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.FolderBase.yield_items_pre_sub_item">
+<code class="sig-name descname">yield_items_pre_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items_pre_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.FolderBase.yield_items_pre_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called before sub_item.yield_items() is called.
+:param sub_item: the sub-item of this folder, just before calling yield_items on it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="jobs">
+<h2>Jobs<a class="headerlink" href="#jobs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="groovyjobbase">
+<h3>GroovyJobBase<a class="headerlink" href="#groovyjobbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.GroovyJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">GroovyJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for jobs that are implemented using Groovy pipeline scripts (<a class="reference external" href="https://www.jenkins.io/doc/book/pipeline/#scripted-pipeline-fundamentals">https://www.jenkins.io/doc/book/pipeline/#scripted-pipeline-fundamentals</a>).</p>
+<dl class="py method">
+<dt id="jenni.models.GroovyJobBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.PipelineJobBase" title="jenni.models.PipelineJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineJobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.GroovyJobBase.code">
+<code class="sig-name descname">code</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase.code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the specified text (normally Groovy scripted pipeline code) into the job.</p>
+<p>See <a class="reference internal" href="#jenni.models.GroovyJobBase.include" title="jenni.models.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> replacements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> -- literal text to be inserted into the job pipeline script.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.GroovyJobBase.get_file_contents">
+<code class="sig-name descname">get_file_contents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.get_file_contents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase.get_file_contents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the contents of the file.</p>
+<p>No replacements are done like in the <a class="reference internal" href="#jenni.models.GroovyJobBase.include" title="jenni.models.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how the file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.GroovyJobBase.include">
+<code class="sig-name descname">include</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.include"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase.include" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the specified file (normally Groovy scripted pipeline code) into the job.</p>
+<p>Contents is checked for occurances of <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> strings, and replaced with the result of executing <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code>.
+Instead of 3 single quotes, 3 double, or 1 single/double quote can be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how a file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.GroovyJobBase.include_first">
+<code class="sig-name descname">include_first</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filenames</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.include_first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.GroovyJobBase.include_first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the first found amongst the specified files
+(normally Groovy scripted pipeline code) into the job.</p>
+<p>See <a class="reference internal" href="#jenni.models.GroovyJobBase.include" title="jenni.models.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> replacements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filenames</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how each file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="job-parameters">
+<h2>Job Parameters<a class="headerlink" href="#job-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="booleanparam">
+<h3>BooleanParam<a class="headerlink" href="#booleanparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.BooleanParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">BooleanParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#BooleanParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.BooleanParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.BooleanParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#BooleanParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.BooleanParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.BooleanParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.BooleanParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.BooleanParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#BooleanParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.BooleanParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="intparam">
+<h3>IntParam<a class="headerlink" href="#intparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.IntParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">IntParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#IntParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.IntParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.IntParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#IntParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.IntParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.IntParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.IntParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.IntParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#IntParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.IntParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="stringparam">
+<h3>StringParam<a class="headerlink" href="#stringparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.StringParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">StringParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#StringParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.StringParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.StringParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#StringParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.StringParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.StringParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.StringParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.StringParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#StringParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.StringParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="validatingstringparam">
+<h3>ValidatingStringParam<a class="headerlink" href="#validatingstringparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.ValidatingStringParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">ValidatingStringParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">validation_message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ValidatingStringParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ValidatingStringParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.ValidatingStringParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">regex</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">validation_message</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ValidatingStringParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ValidatingStringParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.ValidatingStringParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.ValidatingStringParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.ValidatingStringParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ValidatingStringParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ValidatingStringParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="textparam">
+<h3>TextParam<a class="headerlink" href="#textparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.TextParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">TextParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#TextParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.TextParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.TextParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#TextParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.TextParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.TextParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.TextParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.TextParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#TextParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.TextParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="choiceparam">
+<h3>ChoiceParam<a class="headerlink" href="#choiceparam" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.params.ChoiceParam">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.params.</code><code class="sig-name descname">ChoiceParam</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">options</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ChoiceParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ChoiceParam" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.params.ChoiceParam.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">order</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">50</span></em>, <em class="sig-param"><span class="n">options</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ChoiceParam.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ChoiceParam.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.ChoiceParam.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#jenni.models.params.ChoiceParam.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.params.ChoiceParam.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">jobdsl</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/params.html#ChoiceParam.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.params.ChoiceParam.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-jenni.utils">
+<span id="jenni-utils"></span><h2>jenni.utils<a class="headerlink" href="#module-jenni.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="jenni.utils.bool2groovy">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">bool2groovy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#bool2groovy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.bool2groovy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.groovy_string_list">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">groovy_string_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">l</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#groovy_string_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.groovy_string_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.html_link">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">html_link</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#html_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.html_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.quote1or3xs">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">quote1or3xs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#quote1or3xs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.quote1or3xs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groovy formatted string (single or triple quoted as necessary)
+:param s: string
+:return: single or triple quoted string</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.quote1s">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">quote1s</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#quote1s"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.quote1s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groovy formatted single quoted string
+:param s: string to return as single-quoted, IE like '&lt;s&gt;'
+:return: single-quoted string</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.quote3xs">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">quote3xs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#quote3xs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.quote3xs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groovy formatted triple quoted string
+:param s: string to return as triple-single-quoted, IE like '''&lt;s&gt;'''
+:return: triple-single-quoted string</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.quote_list">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">quote_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">list_of_str</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#quote_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.quote_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groovy formatted list of strings
+:param list_of_str: list of strings
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.utils.tidy_text">
+<code class="sig-prename descclassname">jenni.utils.</code><code class="sig-name descname">tidy_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/utils.html#tidy_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.utils.tidy_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strips and un-indents the text</p>
+</dd></dl>
+
+</div>
+<div class="section" id="other-classes">
+<h2>Other Classes<a class="headerlink" href="#other-classes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="jobbase">
+<h3>JobBase<a class="headerlink" href="#jobbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.JobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">JobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.JobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all types of jobs.</p>
+<dl class="py method">
+<dt id="jenni.models.JobBase.get_parameter">
+<code class="sig-name descname">get_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exception_if_not_found</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; jenni.models.params.ParamBase<a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase.get_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.JobBase.get_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>ParamBase instance, or None (if exception_if_not_found is False)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.JobBase.has_parameter">
+<code class="sig-name descname">has_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase.has_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.JobBase.has_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if job has specified parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.JobBase.parameters">
+<em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#jenni.models.JobBase.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of ParamBase instances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pipelinejobbase">
+<h3>PipelineJobBase<a class="headerlink" href="#pipelinejobbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.PipelineJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">PipelineJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">github_project_url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">logrotator_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">quiet_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PipelineJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.PipelineJobBase.__init__">
+<em class="property">abstract </em><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">github_project_url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">logrotator_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">quiet_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PipelineJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>github_project_url</strong> -- If set, ensure Jenkins job shows the Github icon linking to this url.</p></li>
+<li><p><strong>trigger_on_github_push</strong> -- if True, trigger on github push.</p></li>
+<li><p><strong>logrotator_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">numToKeep(50)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">artifactNumToKeep(10)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>throttleconcurrentbuilds_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxPerNode(1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxTotal(2)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>trigger_cron_spec</strong> -- <p>cron spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">8</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.PipelineJobBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PipelineJobBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pythonpipelinejobbase">
+<h3>PythonPipelineJobBase<a class="headerlink" href="#pythonpipelinejobbase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.PythonPipelineJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.</code><code class="sig-name descname">PythonPipelineJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PythonPipelineJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for jobs that are implemented using Python code.
+This is still very much a work in progress.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Warning</dt>
+<dd class="field-odd"><p>Please see <a class="reference external" href="security.html">Security</a> for security concerns about the current implementation.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="jenni.models.PythonPipelineJobBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PythonPipelineJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>github_project_url</strong> -- If set, ensure Jenkins job shows the Github icon linking to this url.</p></li>
+<li><p><strong>trigger_on_github_push</strong> -- if True, trigger on github push.</p></li>
+<li><p><strong>logrotator_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">numToKeep(50)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">artifactNumToKeep(10)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>throttleconcurrentbuilds_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxPerNode(1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxTotal(2)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>trigger_cron_spec</strong> -- <p>cron spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">8</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.PythonPipelineJobBase.run">
+<em class="property">abstract </em><code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.PythonPipelineJobBase.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>To be implemented by subclass</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.PythonPipelineJobBase.workflow">
+<code class="sig-name descname">workflow</code><em class="property"> = &lt;jenni.steps.Step object&gt;</em><a class="headerlink" href="#jenni.models.PythonPipelineJobBase.workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides access to Jenkins workflow (aka pipeline) steps.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="all-modules">
+<h2>All Modules<a class="headerlink" href="#all-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-jenni.models.itembase">
+<span id="itembase"></span><h3>itembase<a class="headerlink" href="#module-jenni.models.itembase" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.models.itembase.ItemBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.itembase.</code><code class="sig-name descname">ItemBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.__init__">
+<em class="property">abstract </em><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>description</strong> -- descriptive text shown in Jenkins for this item</p></li>
+<li><p><strong>name</strong> -- defaults to the name of the file or folder</p></li>
+<li><p><strong>title</strong> -- optional title of the item (defaults to the name of the item)</p></li>
+<li><p><strong>skip_seed</strong> -- if set to True, then do not seed this item in Jenkins</p></li>
+<li><p><strong>url</strong> -- URL to the job/folder. Must end with slash. Normally auto-calculated, unless it is the root folder.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.configure">
+<code class="sig-name descname">configure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.configure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional, can be overridden in subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.get_root_folder">
+<code class="sig-name descname">get_root_folder</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#jenni.models.rootfolderbase.RootFolderBase" title="jenni.models.rootfolderbase.RootFolderBase">jenni.models.rootfolderbase.RootFolderBase</a><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.get_root_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.get_root_folder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.get_sub_item">
+<code class="sig-name descname">get_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item_path</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.get_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.get_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.lookup_relative_filename">
+<code class="sig-name descname">lookup_relative_filename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.lookup_relative_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return path to file.</p>
+<ul class="simple">
+<li><p>If the filename starts with &quot;/&quot;, it is relative to the config directory of the jenni seed command.</p></li>
+<li><p>Otherwise the filename is relative to the directory containing the file defining the calling Job or Folder.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> -- filename spec</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>full path to the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.post_yield_handler">
+<code class="sig-name descname">post_yield_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.post_yield_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.post_yield_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called bottom-up after all items have been yielded</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.write_jobdsl">
+<em class="property">abstract </em><code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.yield_items">
+<code class="sig-name descname">yield_items</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module_name_to_load</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.yield_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.yield_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.itembase.ItemBase.yield_sub_item">
+<code class="sig-name descname">yield_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">base_class</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">parent</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#ItemBase.yield_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.ItemBase.yield_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this to dynamically create a Job or Folder instance. Specifically, it:</p>
+<ul class="simple">
+<li><p>creates a new module containing a new class (named Job or Folder)</p></li>
+<li><p>instances this class</p></li>
+<li><p>calls yield_items on the instance.</p></li>
+</ul>
+<p>Example usage: yield from self.yield_sub_item(&quot;fast_track&quot;, MyTrack)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> -- the name of the module, relative to its parent.</p></li>
+<li><p><strong>base_class</strong> -- the base class of the created class</p></li>
+<li><p><strong>filename</strong> -- defaults to the filename of the calling function.</p></li>
+<li><p><strong>parent</strong> -- defaults to self.</p></li>
+<li><p><strong>kwargs</strong> -- additional arguments for base_class constructor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>nothing. It uses yield instead.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.models.itembase.reset">
+<code class="sig-prename descclassname">jenni.models.itembase.</code><code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/itembase.html#reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.itembase.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>jobbase<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.jobbase"></span><dl class="py class">
+<dt id="jenni.models.jobbase.JobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.jobbase.</code><code class="sig-name descname">JobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.jobbase.JobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all types of jobs.</p>
+<dl class="py method">
+<dt id="jenni.models.jobbase.JobBase.get_parameter">
+<code class="sig-name descname">get_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exception_if_not_found</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; jenni.models.params.ParamBase<a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase.get_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.jobbase.JobBase.get_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>ParamBase instance, or None (if exception_if_not_found is False)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.jobbase.JobBase.has_parameter">
+<code class="sig-name descname">has_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/jenni/models/jobbase.html#JobBase.has_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.jobbase.JobBase.has_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if job has specified parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.jobbase.JobBase.parameters">
+<em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#jenni.models.jobbase.JobBase.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of ParamBase instances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>folderbase<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.folderbase"></span><dl class="py class">
+<dt id="jenni.models.folderbase.FolderBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.folderbase.</code><code class="sig-name descname">FolderBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">title</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">skip_seed</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.add_new_folder">
+<code class="sig-name descname">add_new_folder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_folder</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.folderbase.FolderBase" title="jenni.models.folderbase.FolderBase">jenni.models.folderbase.FolderBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.add_new_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.add_new_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a sub-folder has been added to this folder.
+The sub-folder can be customised by overriding this method.
+Note yield_items() is not yet called on this job.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.add_new_job">
+<code class="sig-name descname">add_new_job</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.jobbase.JobBase" title="jenni.models.jobbase.JobBase">jenni.models.jobbase.JobBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.add_new_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.add_new_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a job has been added to this folder.
+The job can be customised by overriding this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.sub_item_completed_handler">
+<code class="sig-name descname">sub_item_completed_handler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.sub_item_completed_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.sub_item_completed_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after a sub-item has been added to this folder
+and all yielding has completed for it.
+The item can be customised by overriding this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.yield_items">
+<code class="sig-name descname">yield_items</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module_name_to_load</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.yield_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield this folder and any items generated by python files below this folder.
+Overwrite in subclasses to dynamically generate items, but always insert this:
+<code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span> <span class="pre">super().yield_items(module_name_to_load)</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.yield_items_post_sub_item">
+<code class="sig-name descname">yield_items_post_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items_post_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.yield_items_post_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after sub_item.yield_items() has been called.
+:param sub_item: the sub-item of this folder, just after calling yield_items on it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.folderbase.FolderBase.yield_items_pre_sub_item">
+<code class="sig-name descname">yield_items_pre_sub_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sub_item</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.itembase.ItemBase" title="jenni.models.itembase.ItemBase">jenni.models.itembase.ItemBase</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/folderbase.html#FolderBase.yield_items_pre_sub_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.folderbase.FolderBase.yield_items_pre_sub_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called before sub_item.yield_items() is called.
+:param sub_item: the sub-item of this folder, just before calling yield_items on it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h3>rootfolderbase<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.rootfolderbase"></span><dl class="py class">
+<dt id="jenni.models.rootfolderbase.RootFolderBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.rootfolderbase.</code><code class="sig-name descname">RootFolderBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.rootfolderbase.RootFolderBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the pre-existing root folder in Jenkins below which jobs/folders are created.
+Has an empty name.</p>
+<dl class="py method">
+<dt id="jenni.models.rootfolderbase.RootFolderBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.rootfolderbase.RootFolderBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> -- URL to the (possibly toplevel) Folder on the Jenkins server that this class represents.</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.FolderBase" title="jenni.models.FolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.FolderBase</span></code></a> <code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.rootfolderbase.RootFolderBase.pythonpipelinejob_inside_node_wrapper">
+<em class="property">abstract </em><code class="sig-name descname">pythonpipelinejob_inside_node_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase" title="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase">jenni.models.pythonpipelinejobbase.PythonPipelineJobBase</a></span></em>, <em class="sig-param"><span class="n">groovy_code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.pythonpipelinejob_inside_node_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.rootfolderbase.RootFolderBase.pythonpipelinejob_inside_node_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures appropriate code is executed around all code inside the node step.
+:param job:
+:param groovy_code:
+:return: groovy_code with preamble and postamble code</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.rootfolderbase.RootFolderBase.pythonpipelinejob_main_wrapper">
+<code class="sig-name descname">pythonpipelinejob_main_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase" title="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase">jenni.models.pythonpipelinejobbase.PythonPipelineJobBase</a></span></em>, <em class="sig-param"><span class="n">groovy_code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.pythonpipelinejob_main_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.rootfolderbase.RootFolderBase.pythonpipelinejob_main_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.rootfolderbase.RootFolderBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/rootfolderbase.html#RootFolderBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.rootfolderbase.RootFolderBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root folder already exists on the Jenkins server, so this is a no-op.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>pipelinejobbase<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.pipelinejobbase"></span><dl class="py class">
+<dt id="jenni.models.pipelinejobbase.PipelineJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.pipelinejobbase.</code><code class="sig-name descname">PipelineJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">github_project_url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">logrotator_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">quiet_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pipelinejobbase.PipelineJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.models.pipelinejobbase.PipelineJobBase.__init__">
+<em class="property">abstract </em><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">github_project_url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">logrotator_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">quiet_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">''</span></em>, <em class="sig-param"><span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pipelinejobbase.PipelineJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>github_project_url</strong> -- If set, ensure Jenkins job shows the Github icon linking to this url.</p></li>
+<li><p><strong>trigger_on_github_push</strong> -- if True, trigger on github push.</p></li>
+<li><p><strong>logrotator_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">numToKeep(50)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">artifactNumToKeep(10)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>throttleconcurrentbuilds_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxPerNode(1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxTotal(2)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>trigger_cron_spec</strong> -- <p>cron spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">8</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.pipelinejobbase.PipelineJobBase.write_jobdsl">
+<code class="sig-name descname">write_jobdsl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fp</span><span class="p">:</span> <span class="n">_io.TextIOWrapper</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pipelinejobbase.html#PipelineJobBase.write_jobdsl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pipelinejobbase.PipelineJobBase.write_jobdsl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>pythonpipelinejobbase<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.pythonpipelinejobbase"></span><dl class="py class">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.pythonpipelinejobbase.</code><code class="sig-name descname">PythonPipelineJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for jobs that are implemented using Python code.
+This is still very much a work in progress.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Warning</dt>
+<dd class="field-odd"><p>Please see <a class="reference external" href="security.html">Security</a> for security concerns about the current implementation.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>github_project_url</strong> -- If set, ensure Jenkins job shows the Github icon linking to this url.</p></li>
+<li><p><strong>trigger_on_github_push</strong> -- if True, trigger on github push.</p></li>
+<li><p><strong>logrotator_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">numToKeep(50)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">artifactNumToKeep(10)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>throttleconcurrentbuilds_spec</strong> -- <p>spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxPerNode(1)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxTotal(2)</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>trigger_cron_spec</strong> -- <p>cron spec according to
+<a class="reference external" href="https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron">https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron</a>
+Example:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">H</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">8</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.children">
+<code class="sig-name descname">children</code><em class="property">: List['ItemBase']</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.description">
+<code class="sig-name descname">description</code><em class="property">: str</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.jenkins_path">
+<code class="sig-name descname">jenkins_path</code><em class="property">: str</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.jenkins_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.logrotator_spec">
+<code class="sig-name descname">logrotator_spec</code><em class="property">: str</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.logrotator_spec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.parent">
+<code class="sig-name descname">parent</code><em class="property">: Optional['jenni.models.FolderBase']</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.parent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.quiet_period">
+<code class="sig-name descname">quiet_period</code><em class="property">: int</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.quiet_period" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.run">
+<em class="property">abstract </em><code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/pythonpipelinejobbase.html#PythonPipelineJobBase.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>To be implemented by subclass</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.title">
+<code class="sig-name descname">title</code><em class="property">: str</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.trigger_cron_spec">
+<code class="sig-name descname">trigger_cron_spec</code><em class="property">: str</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.trigger_cron_spec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.trigger_on_github_push">
+<code class="sig-name descname">trigger_on_github_push</code><em class="property">: bool</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.trigger_on_github_push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.workflow">
+<code class="sig-name descname">workflow</code><em class="property"> = &lt;jenni.steps.Step object&gt;</em><a class="headerlink" href="#jenni.models.pythonpipelinejobbase.PythonPipelineJobBase.workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides access to Jenkins workflow (aka pipeline) steps.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h3>groovyjobbase<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-jenni.models.groovyjobbase"></span><dl class="py class">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.models.groovyjobbase.</code><code class="sig-name descname">GroovyJobBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for jobs that are implemented using Groovy pipeline scripts (<a class="reference external" href="https://www.jenkins.io/doc/book/pipeline/#scripted-pipeline-fundamentals">https://www.jenkins.io/doc/book/pipeline/#scripted-pipeline-fundamentals</a>).</p>
+<dl class="py method">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> -- optional arguments. Passed through to <a class="reference internal" href="#jenni.models.PipelineJobBase" title="jenni.models.PipelineJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineJobBase</span></code></a> <a class="reference internal" href="#jenni.models.PipelineJobBase.__init__" title="jenni.models.PipelineJobBase.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase.code">
+<code class="sig-name descname">code</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase.code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the specified text (normally Groovy scripted pipeline code) into the job.</p>
+<p>See <a class="reference internal" href="#jenni.models.groovyjobbase.GroovyJobBase.include" title="jenni.models.groovyjobbase.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> replacements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>code</strong> -- literal text to be inserted into the job pipeline script.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase.get_file_contents">
+<code class="sig-name descname">get_file_contents</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.get_file_contents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase.get_file_contents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the contents of the file.</p>
+<p>No replacements are done like in the <a class="reference internal" href="#jenni.models.groovyjobbase.GroovyJobBase.include" title="jenni.models.groovyjobbase.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how the file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase.include">
+<code class="sig-name descname">include</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.include"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase.include" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the specified file (normally Groovy scripted pipeline code) into the job.</p>
+<p>Contents is checked for occurances of <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> strings, and replaced with the result of executing <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code>.
+Instead of 3 single quotes, 3 double, or 1 single/double quote can be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how a file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="jenni.models.groovyjobbase.GroovyJobBase.include_first">
+<code class="sig-name descname">include_first</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filenames</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/models/groovyjobbase.html#GroovyJobBase.include_first"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.models.groovyjobbase.GroovyJobBase.include_first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include the first found amongst the specified files
+(normally Groovy scripted pipeline code) into the job.</p>
+<p>See <a class="reference internal" href="#jenni.models.groovyjobbase.GroovyJobBase.include" title="jenni.models.groovyjobbase.GroovyJobBase.include"><code class="xref py py-func docutils literal notranslate"><span class="pre">include()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">{python('''&lt;code&gt;''')}</span></code> replacements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filenames</strong> -- See <a class="reference internal" href="#jenni.models.itembase.ItemBase.lookup_relative_filename" title="jenni.models.itembase.ItemBase.lookup_relative_filename"><code class="xref py py-func docutils literal notranslate"><span class="pre">lookup_relative_filename()</span></code></a>
+for how each file may be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="pipeline-execution-steps">
+<h2>Pipeline Execution Steps<a class="headerlink" href="#pipeline-execution-steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="steps-archiveartifacts">
+<h3>steps.archiveArtifacts<a class="headerlink" href="#steps-archiveartifacts" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.steps.archiveArtifacts.Step">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.steps.archiveArtifacts.</code><code class="sig-name descname">Step</code><a class="reference internal" href="_modules/jenni/steps/archiveArtifacts.html#Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.archiveArtifacts.Step" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://www.jenkins.io/doc/pipeline/steps/core/#archiveartifacts-archive-the-artifacts">https://www.jenkins.io/doc/pipeline/steps/core/#archiveartifacts-archive-the-artifacts</a></p>
+<dl class="py method">
+<dt id="jenni.steps.archiveArtifacts.Step.archiveArtifacts">
+<code class="sig-name descname">archiveArtifacts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">artifacts</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">allowEmptyArchive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">caseSensitive</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">defaultExcludes</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">excludes</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">fingerprint</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">onlyIfSuccessful</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/steps/archiveArtifacts.html#Step.archiveArtifacts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.archiveArtifacts.Step.archiveArtifacts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="steps-build">
+<h3>steps.build<a class="headerlink" href="#steps-build" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.steps.build.Step">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.steps.build.</code><code class="sig-name descname">Step</code><a class="reference internal" href="_modules/jenni/steps/build.html#Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.build.Step" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="jenni.steps.build.Step.CLASS_MAP">
+<code class="sig-name descname">CLASS_MAP</code><em class="property"> = {'bool': 'BooleanParameterValue', 'string': 'StringParameterValue', 'text': 'TextParameterValue'}</em><a class="headerlink" href="#jenni.steps.build.Step.CLASS_MAP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.steps.build.Step.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">job</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">propagate</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">wait</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>None<span class="p">, </span>dict<span class="p">]</span><a class="reference internal" href="_modules/jenni/steps/build.html#Step.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.build.Step.build" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job</strong> -- Name of a downstream job to build. May be another Pipeline job,
+but more commonly a freestyle or other project. Use a simple name if the job is in
+the same folder as this upstream Pipeline job; otherwise can use relative paths like
+<code class="docutils literal notranslate"><span class="pre">../sister-folder/downstream</span></code> or absolute paths like <code class="docutils literal notranslate"><span class="pre">/top-level-folder/nested-folder/downstream</span></code></p></li>
+<li><p><strong>parameters</strong> -- <p>list of [type, name, value].</p>
+<p>Name and value are obvious;
+type is one of the types listed in <a class="reference external" href="https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job">https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/#build-build-a-job</a>
+EG:</p>
+<ul>
+<li><p>&quot;booleanParam&quot;</p></li>
+<li><p>&quot;string&quot;</p></li>
+<li><p>&quot;text&quot;</p></li>
+</ul>
+</p></li>
+<li><p><strong>propagate</strong> -- If enabled (default state), then the result of this step is that of the downstream build
+(e.g., success, unstable, failure, not built, or aborted).
+If disabled, then this step succeeds even if the downstream build is unstable, failed, etc.;
+use the result property of the return value as needed.</p></li>
+<li><p><strong>wait</strong> -- Wait for the job to complete. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>You may ask that this Pipeline build wait for completion of the downstream build. In that case the return value of the step is an object on which you can obtain the following read-only properties: so you can inspect its .result and so on.</p>
+<dl class="simple">
+<dt>getBuildCauses</dt><dd><p>Returns a JSON array of build causes for the current build</p>
+</dd>
+<dt>EXPERIMENTAL - MAY CHANGE getBuildCauses(String causeClass)</dt><dd><p>Takes a string representing the fully qualified Cause class and returns a JSON array of build causes filtered by that type for the current build, or an empty JSON array if no causes of the specified type apply to the current build</p>
+</dd>
+<dt>number</dt><dd><p>build number (integer)</p>
+</dd>
+<dt>result</dt><dd><p>typically SUCCESS, UNSTABLE, or FAILURE (may be null for an ongoing build)</p>
+</dd>
+<dt>currentResult</dt><dd><p>typically SUCCESS, UNSTABLE, or FAILURE. Will never be null.</p>
+</dd>
+<dt>resultIsBetterOrEqualTo(String)</dt><dd><p>Compares the current build result to the provided result string (SUCCESS, UNSTABLE, or FAILURE) and returns true if the current build result is better than or equal to the provided result.</p>
+</dd>
+<dt>resultIsWorseOrEqualTo(String)</dt><dd><p>Compares the current build result to the provided result string (SUCCESS, UNSTABLE, or FAILURE) and returns true if the current build result is worse than or equal to the provided result.</p>
+</dd>
+<dt>displayName</dt><dd><p>normally #123 but sometimes set to, e.g., an SCM commit identifier.</p>
+</dd>
+<dt>fullDisplayName</dt><dd><p>normally folder1 » folder2 » foo #123.</p>
+</dd>
+<dt>projectName</dt><dd><p>Name of the project of this build, such as foo.</p>
+</dd>
+<dt>fullProjectName</dt><dd><p>Full name of the project of this build, including folders such as folder1/folder2/foo.</p>
+</dd>
+<dt>description</dt><dd><p>additional information about the build</p>
+</dd>
+<dt>id</dt><dd><p>normally number as a string</p>
+</dd>
+<dt>timeInMillis</dt><dd><p>time since the epoch when the build was scheduled</p>
+</dd>
+<dt>startTimeInMillis</dt><dd><p>time since the epoch when the build started running</p>
+</dd>
+<dt>duration</dt><dd><p>duration of the build in milliseconds</p>
+</dd>
+<dt>durationString</dt><dd><p>a human-readable representation of the build duration</p>
+</dd>
+<dt>previousBuild</dt><dd><p>another similar object, or null</p>
+</dd>
+<dt>nextBuild</dt><dd><p>similarly</p>
+</dd>
+<dt>absoluteUrl</dt><dd><p>URL of build index page</p>
+</dd>
+<dt>buildVariables</dt><dd><p>for a non-Pipeline downstream build, offers access to a map of defined build variables; for a Pipeline downstream build, any variables set globally on env at the time the build ends. Child Pipeline jobs can use this to report additional information to the parent job by setting variables in env. Note that build parameters are not shown in buildVariables.</p>
+</dd>
+<dt>changeSets</dt><dd><p>a list of changesets coming from distinct SCM checkouts; each has a kind and is a list of commits; each commit has a commitId, timestamp, msg, author, and affectedFiles each of which has an editType and path; the value will not generally be Serializable so you may only access it inside a method marked &#64;NonCPS</p>
+</dd>
+<dt>upstreamBuilds</dt><dd><p>a list of upstream builds. These are the builds of the upstream projects whose artifacts feed into this build.</p>
+</dd>
+<dt>rawBuild</dt><dd><p>a hudson.model.Run with further APIs, only for trusted libraries or administrator-approved scripts outside the sandbox; the value will not be Serializable so you may only access it inside a method marked &#64;NonCPS</p>
+</dd>
+<dt>keepLog</dt><dd><p>true if the log file for this build should be kept and not deleted.</p>
+</dd>
+</dl>
+<p>If you do not wait, this step succeeds so long as the downstream build can be added to the queue (it will not even have been started). In that case there is currently no return value.</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="steps-sh">
+<h3>steps.sh<a class="headerlink" href="#steps-sh" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.steps.sh.Step">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.steps.sh.</code><code class="sig-name descname">Step</code><a class="reference internal" href="_modules/jenni/steps/sh.html#Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.sh.Step" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.steps.sh.Step.sh">
+<code class="sig-name descname">sh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">script</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">returnStatus</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">returnStdout</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>None<span class="p">, </span>int<span class="p">, </span>str<span class="p">]</span><a class="reference internal" href="_modules/jenni/steps/sh.html#Step.sh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.sh.Step.sh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs sh workflow step.
+&#64;see <a class="reference external" href="https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script">https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script</a>
+:param script:
+Runs a Bourne shell script, typically on a Unix node. Multiple lines are accepted.
+An interpreter selector may be used, for example: #!/usr/bin/perl
+Otherwise the system default shell will be run, using the -xe flags
+(you can specify set +e and/or set +x to disable those).
+:param returnStatus:  Normally, a script which exits with a nonzero status code will cause
+the step to fail with an exception. If this option is checked, the return value of the step
+will instead be the status code. You may then compare it to zero, for example.
+:param returnStdout:
+If checked, standard output from the task is returned as the step value as a String,
+rather than being printed to the build log. (Standard error, if any, will still be printed to the log.)
+You will often want to call .trim() on the result to strip off a trailing newline.
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="steps-stashing">
+<h3>steps.stashing<a class="headerlink" href="#steps-stashing" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="jenni.steps.stashing.Step">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.steps.stashing.</code><code class="sig-name descname">Step</code><a class="reference internal" href="_modules/jenni/steps/stashing.html#Step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.stashing.Step" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.steps.stashing.Step.stash">
+<code class="sig-name descname">stash</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">includes</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/steps/stashing.html#Step.stash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.stashing.Step.stash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.steps.stashing.Step.unstash">
+<code class="sig-name descname">unstash</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/steps/stashing.html#Step.unstash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.steps.stashing.Step.unstash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jenni</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#folders">Folders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rootfolderbase">RootFolderBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase">FolderBase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#jobs">Jobs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#groovyjobbase">GroovyJobBase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#job-parameters">Job Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#booleanparam">BooleanParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#intparam">IntParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stringparam">StringParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#validatingstringparam">ValidatingStringParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#textparam">TextParam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choiceparam">ChoiceParam</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jenni.utils">jenni.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-classes">Other Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jobbase">JobBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pipelinejobbase">PipelineJobBase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pythonpipelinejobbase">PythonPipelineJobBase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#all-modules">All Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-jenni.models.itembase">itembase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">jobbase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">folderbase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">rootfolderbase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">pipelinejobbase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">pythonpipelinejobbase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">groovyjobbase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-execution-steps">Pipeline Execution Steps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#steps-archiveartifacts">steps.archiveArtifacts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steps-build">steps.build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steps-sh">steps.sh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steps-stashing">steps.stashing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ex01/index.html">Basic Example</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="security.html" title="previous chapter">Security</a></li>
+      <li>Next: <a href="examples/index.html" title="next chapter">Examples</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wouter Batelaan (Synamedia).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

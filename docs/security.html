@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security &#8212; Jenni  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="security">
+<h1>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h1>
+<p>The only known security concerns are as follows:</p>
+<p>1. When Jenkins jobs are derived from
+<a class="reference internal" href="api.html#jenni.models.PythonPipelineJobBase" title="jenni.models.PythonPipelineJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.PythonPipelineJobBase</span></code></a>, as implemented at the time of writing
+using a plain http server listener (see file <code class="docutils literal notranslate"><span class="pre">stepserver.py</span></code>  <a class="reference internal" href="#module-jenni.stepserver" title="jenni.stepserver"><code class="xref py py-mod docutils literal notranslate"><span class="pre">jenni.stepserver</span></code></a>), then
+sensitive data could possibly be obtained if network traffic on the loopback network could be captured,
+due to http being used.</p>
+<p>2. The stepserver listens on localhost and an attacker could craft a malicious request
+that would cause a security incident.</p>
+<p>Thus do not use <a class="reference internal" href="api.html#jenni.models.PythonPipelineJobBase" title="jenni.models.PythonPipelineJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.PythonPipelineJobBase</span></code></a> in an environment where the above issues
+could arise.</p>
+<div class="section" id="pipeline-execution-step-server">
+<h2>Pipeline Execution Step Server<a class="headerlink" href="#pipeline-execution-step-server" title="Permalink to this headline">¶</a></h2>
+<p>A POC. See above for security concerns.</p>
+<span class="target" id="module-jenni.stepserver"></span><dl class="py class">
+<dt id="jenni.stepserver.SimpleHTTPRequestHandler">
+<em class="property">class </em><code class="sig-prename descclassname">jenni.stepserver.</code><code class="sig-name descname">SimpleHTTPRequestHandler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">request</span></em>, <em class="sig-param"><span class="n">client_address</span></em>, <em class="sig-param"><span class="n">server</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/stepserver.html#SimpleHTTPRequestHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.SimpleHTTPRequestHandler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="jenni.stepserver.SimpleHTTPRequestHandler.do_POST">
+<code class="sig-name descname">do_POST</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/stepserver.html#SimpleHTTPRequestHandler.do_POST"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.SimpleHTTPRequestHandler.do_POST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="jenni.stepserver.SimpleHTTPRequestHandler.log_request">
+<code class="sig-name descname">log_request</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="o">=</span><span class="default_value">'-'</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">'-'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/stepserver.html#SimpleHTTPRequestHandler.log_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.SimpleHTTPRequestHandler.log_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log an accepted request.</p>
+<p>This is called by send_response().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="jenni.stepserver.execute_groovy">
+<code class="sig-prename descclassname">jenni.stepserver.</code><code class="sig-name descname">execute_groovy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">exit_status</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/stepserver.html#execute_groovy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.execute_groovy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="jenni.stepserver.get_free_port">
+<code class="sig-prename descclassname">jenni.stepserver.</code><code class="sig-name descname">get_free_port</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/jenni/stepserver.html#get_free_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.get_free_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="jenni.stepserver.start_server">
+<code class="sig-prename descclassname">jenni.stepserver.</code><code class="sig-name descname">start_server</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jenni/stepserver.html#start_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#jenni.stepserver.start_server" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jenni</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Security</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pipeline-execution-step-server">Pipeline Execution Step Server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ex01/index.html">Basic Example</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="api.html" title="next chapter">API</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wouter Batelaan (Synamedia).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/security.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

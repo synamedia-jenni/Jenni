@@ -1,0 +1,23 @@
+exclude: '^docs/.*'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 20.8b1 # Replace by any tag/version: https://github.com/psf/black/tags
+    hooks:
+      - id: black
+        language_version: python3 # Should be a command that runs python3.6+
+  -   repo: https://github.com/PyCQA/bandit
+      rev: "1.7.0"
+      hooks:
+        - id: bandit
+          args:
+            - "--exclude"
+            - "jenni/tests"

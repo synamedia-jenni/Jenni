@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jenni.models.pipelinejobbase &#8212; Jenni  documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for jenni.models.pipelinejobbase</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.jobbase</span> <span class="kn">import</span> <span class="n">JobBase</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">TextIOWrapper</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="c1"># See https://docs.python.org/3.6/library/abc.html</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+
+<span class="kn">from</span> <span class="nn">.params</span> <span class="kn">import</span> <span class="n">ParamBase</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">quote3xs</span><span class="p">,</span> <span class="n">tidy_text</span><span class="p">,</span> <span class="n">quote1s</span>
+
+
+<div class="viewcode-block" id="PipelineJobBase"><a class="viewcode-back" href="../../../api.html#jenni.models.PipelineJobBase">[docs]</a><span class="k">class</span> <span class="nc">PipelineJobBase</span><span class="p">(</span><span class="n">JobBase</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="PipelineJobBase.__init__"><a class="viewcode-back" href="../../../api.html#jenni.models.PipelineJobBase.__init__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">github_project_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">logrotator_spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">quiet_period</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param github_project_url: If set, ensure Jenkins job shows the Github icon linking to this url.</span>
+
+<span class="sd">        :param trigger_on_github_push: if True, trigger on github push.</span>
+
+<span class="sd">        :param logrotator_spec: spec according to</span>
+<span class="sd">            https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-logRotator</span>
+<span class="sd">            Example:</span>
+
+<span class="sd">            * ``numToKeep(50)``</span>
+<span class="sd">            * ``artifactNumToKeep(10)``</span>
+
+<span class="sd">        :param throttleconcurrentbuilds_spec: spec according to</span>
+<span class="sd">            https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-throttleConcurrentBuilds</span>
+<span class="sd">            Example:</span>
+
+<span class="sd">            * ``maxPerNode(1)``</span>
+<span class="sd">            * ``maxTotal(2)``</span>
+
+<span class="sd">        :param trigger_cron_spec: cron spec according to</span>
+<span class="sd">            https://jenkinsci.github.io/job-dsl-plugin/#path/pipelineJob-triggers-cron</span>
+<span class="sd">            Example:</span>
+
+<span class="sd">            * ``H * * * *``</span>
+<span class="sd">            * ``0 8 * * *``</span>
+
+<span class="sd">        :param kwargs: optional arguments. Passed through to :class:`~jenni.models.JobBase` :func:`~jenni.models.PipelineJobBase.__init__`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">github_project_url</span> <span class="o">=</span> <span class="n">github_project_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logrotator_spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">logrotator_spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quiet_period</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">quiet_period</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">throttleconcurrentbuilds_spec</span> <span class="o">=</span> <span class="n">throttleconcurrentbuilds_spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trigger_cron_spec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">trigger_cron_spec</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">trigger_on_github_push</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">trigger_on_github_push</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PipelineJobBase.write_jobdsl"><a class="viewcode-back" href="../../../api.html#jenni.models.PipelineJobBase.write_jobdsl">[docs]</a>    <span class="k">def</span> <span class="nf">write_jobdsl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">:</span> <span class="n">TextIOWrapper</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;write_jobdsl start </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_script</span><span class="p">()</span>
+        <span class="n">jobdsl</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;pipelineJob(&#39;&#39;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">jenkins_path</span><span class="si">}</span><span class="s2">&#39;&#39;&#39;)&quot;&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;{&quot;</span><span class="p">]</span>
+
+        <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    displayName(</span><span class="si">{</span><span class="n">quote3xs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    description(</span><span class="si">{</span><span class="n">quote3xs</span><span class="p">(</span><span class="n">tidy_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">))</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">github_project_url</span><span class="p">:</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    properties </span><span class="se">{{</span><span class="s2"> githubProjectUrl(</span><span class="si">{</span><span class="n">quote1s</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">github_project_url</span><span class="p">)</span><span class="si">}</span><span class="s2">) </span><span class="se">}}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">logrotator_spec</span><span class="p">:</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    logRotator { &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logrotator_spec</span> <span class="o">+</span> <span class="s2">&quot; }&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">throttleconcurrentbuilds_spec</span><span class="p">:</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    throttleConcurrentBuilds { &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">throttleconcurrentbuilds_spec</span> <span class="o">+</span> <span class="s2">&quot; }&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_cron_spec</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_on_github_push</span><span class="p">:</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    triggers {&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_cron_spec</span><span class="p">:</span>
+                <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;      cron(</span><span class="si">{</span><span class="n">quote3xs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trigger_cron_spec</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_on_github_push</span><span class="p">:</span>
+                <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;      githubPush()&quot;</span><span class="p">)</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    }&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_on_github_push</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quiet_period</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    quietPeriod(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quiet_period</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_job_parameters_jobdsl</span><span class="p">(</span><span class="n">jobdsl</span><span class="p">)</span>
+
+        <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            definition </span><span class="se">{{</span><span class="s2"></span>
+<span class="s2">                cps </span><span class="se">{{</span><span class="s2"></span>
+<span class="s2">                    script(</span><span class="si">{</span><span class="n">quote3xs</span><span class="p">(</span><span class="n">script</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">                    sandbox()</span>
+<span class="s2">                </span><span class="se">}}</span><span class="s2"></span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;}&quot;</span><span class="p">)</span>
+        <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># Ensures code ends with \n</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jobdsl</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_generate_job_parameters_jobdsl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobdsl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+
+        <span class="n">has_parameters</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">ParamBase</span><span class="p">)]</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">order</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_parameters</span><span class="p">:</span>
+                <span class="n">has_parameters</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    parameters {&quot;</span><span class="p">)</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">write_jobdsl</span><span class="p">(</span><span class="n">jobdsl</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_parameters</span><span class="p">:</span>
+            <span class="n">jobdsl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    }&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Jenni</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/ex01/index.html">Basic Example</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wouter Batelaan (Synamedia).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

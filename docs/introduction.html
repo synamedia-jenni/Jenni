@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction &#8212; Jenni  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Security" href="security.html" />
+    <link rel="prev" title="Welcome to Jenni&#39;s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Jenni (JENkins New Interface) provides a Python-based system for configuring and running Jenkins jobs.</p>
+</div>
+<div class="section" id="why-use-jenni">
+<h2>Why use Jenni?<a class="headerlink" href="#why-use-jenni" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>It allows programmatic generation of Jenkins Jobs using the flexibility and familiarity of the Python language.</p></li>
+<li><p>Using class-based models for defining jobs allows for template-like instantiation of jobs.</p></li>
+<li><p>It provides a flexible framework for iterative development of Jenkins jobs.</p></li>
+<li><p>Jenkins <a class="reference external" href="https://plugins.jenkins.io/workflow-cps">Pipeline Groovy</a> has several (surprising) restrictions.</p></li>
+<li><p>Many engineers know and love Python.</p></li>
+<li><p>Python has excellent IDE support.</p></li>
+</ul>
+</div>
+<div class="section" id="how-does-it-work">
+<h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Each Jenkins job is defined by a class called <code class="docutils literal notranslate"><span class="pre">Job</span></code> in a Python module.</p></li>
+<li><p>Each Jenkins folder is defined by a class named <code class="docutils literal notranslate"><span class="pre">Folder</span></code> in a Python package module.</p></li>
+<li><p>Job parameters are defined by instances of a <code class="docutils literal notranslate"><span class="pre">ParamBase</span></code> sub-class.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">jenni</span> <span class="pre">seed</span></code> generates an intermediate JobDSL file.</p></li>
+<li><p>In Jenkins a <code class="docutils literal notranslate"><span class="pre">seed</span></code> job can process this JobDSL file to create/update folders and jobs.</p></li>
+<li><p>As a developer in your own workspace, the JobDSL file can also be processed
+to generate a directory tree with Jenkins folder&amp;job xml files.</p></li>
+<li><p>This generated directory tree can be compared with a reference directory tree,
+to check if the changes are as expected.</p></li>
+<li><p>One or more folder&amp;job xml files can be uploaded to Jenkins to modify specific folders&amp;jobs.</p></li>
+<li><p>A Gradle build file handles these local-workspace activities.</p></li>
+</ul>
+</div>
+<div class="section" id="what-will-be-next">
+<h2>What will be next?<a class="headerlink" href="#what-will-be-next" title="Permalink to this headline">¶</a></h2>
+<p>The Jenni package is far from complete. The ultimate goal is both generate
+and execute jobs using Python, without using any Groovy pipeline code directly.
+The beginnings of this has been implemented as a proof of concept:</p>
+<ul class="simple">
+<li><p>Various Python methods provide functionality equivalent to corresponding pipeline steps
+(eg sofar mostly the basic steps like stash/unstash, archiveArtifact, copyArtifact, git, unstable, stage, etc etc).</p></li>
+<li><p>These methods effectively perform a Remote Procedure Call to a Groovy listener, which executes
+the requested pipeline step, and returns the result.</p></li>
+</ul>
+<p>Help for the following would be much appreciated:</p>
+<ul class="simple">
+<li><p>improving the Folder and Job creation api</p></li>
+<li><p>allow creating Views</p></li>
+<li><p>implementation of many more steps</p></li>
+<li><p>implementation of a plugin for a pipeline step RPC listener (replacing the prototype scripted approach).</p></li>
+</ul>
+</div>
+<div class="section" id="security-warning">
+<h2>Security Warning<a class="headerlink" href="#security-warning" title="Permalink to this headline">¶</a></h2>
+<p>Please see <a class="reference external" href="security.html">Security</a> for deployment on 'insecure / multi-tenant' Jenkins hosts.</p>
+</div>
+<div class="section" id="sample-directory-structure">
+<h2>Sample Directory Structure<a class="headerlink" href="#sample-directory-structure" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jobs</span><span class="o">/</span>                   <span class="c1"># a directory called &quot;jobs&quot; is required.</span>
+    <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>         <span class="c1"># defines a &quot;Folder&quot; class derived from RootFolderBase</span>
+    <span class="n">folder1</span><span class="o">/</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">job1</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">jenni</span></code> command has this usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>jenni <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>-q<span class="o">]</span> -c CONFIG_DIR <span class="o">[</span>-l LOG_FILE<span class="o">]</span> <span class="o">{</span>run,seed<span class="o">}</span> ...
+</pre></div>
+</div>
+<p>It has two sub-commands, <code class="docutils literal notranslate"><span class="pre">seed</span></code> and <code class="docutils literal notranslate"><span class="pre">run</span></code>.</p>
+<div class="section" id="seed-command">
+<h3>Seed Command<a class="headerlink" href="#seed-command" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">jenni</span> <span class="pre">seed</span></code> command processes a directory containing the &quot;jobs&quot; directory and writes a Groovy file with JobDSL code.
+See <a class="reference internal" href="#seed-job"><span class="std std-ref">Seed Job</span></a>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>jenni seed -o OUTPUT_FILE <span class="o">[</span>--append<span class="o">]</span>
+
+optional arguments:
+  -h, --help            show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  -o OUTPUT_FILE, --output OUTPUT_FILE
+                        Output jobdsl filename
+  --append              Append rather than overwrite output jobdsl file
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-command">
+<h3>Run Command<a class="headerlink" href="#run-command" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">jenni</span> <span class="pre">run</span></code> command runs a Jenkins job. This is work in progress.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>jenni run <span class="o">[</span>-j JOB_NAME<span class="o">]</span> <span class="o">[</span>param_assignment <span class="o">[</span>param_assignment ...<span class="o">]]</span>
+
+positional arguments:
+  param_assignment      <span class="nv">name</span><span class="o">=</span>value <span class="k">for</span> each job parameter
+
+optional arguments:
+  -j JOB_NAME, --job JOB_NAME
+                        Name of job to run. Default is <span class="nv">$JOB_NAME</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="seed-job">
+<span id="id1"></span><h2>Seed Job<a class="headerlink" href="#seed-job" title="Permalink to this headline">¶</a></h2>
+<p>A job like this can be used to update the folders/jobs on a Jenkins server after a commit to the code using Jenni.</p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="o">{</span> <span class="n">label</span> <span class="s1">&#39;master&#39;</span> <span class="o">}</span>
+    <span class="n">options</span> <span class="o">{</span>
+        <span class="n">disableConcurrentBuilds</span><span class="o">()</span>
+    <span class="o">}</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Checkout&#39;</span><span class="o">)</span> <span class="o">{</span> <span class="n">checkout</span> <span class="o">...</span> <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Generate&#39;</span><span class="o">)</span> <span class="o">{</span> <span class="n">sh</span> <span class="nl">script:</span> <span class="s1">&#39;python -m jenni seed &gt;jobdsl.groovy&#39;</span> <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Execute&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">jobDsl</span><span class="o">(</span>
+                <span class="nl">lookupStrategy:</span> <span class="s1">&#39;SEED_JOB&#39;</span><span class="o">,</span>
+                <span class="nl">removedConfigFilesAction:</span> <span class="s1">&#39;DELETE&#39;</span><span class="o">,</span>
+                <span class="nl">removedJobAction:</span> <span class="s1">&#39;DISABLE&#39;</span><span class="o">,</span>
+                <span class="nl">removedViewAction:</span> <span class="s1">&#39;IGNORE&#39;</span><span class="o">,</span>
+                <span class="nl">scriptText:</span> <span class="n">readFile</span><span class="o">(</span><span class="nl">file:</span><span class="s1">&#39;jobdsl.groovy&#39;</span><span class="o">)</span>
+            <span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> to run the unittests located in the <code class="docutils literal notranslate"><span class="pre">test</span></code> folder.</p>
+</div>
+<div class="section" id="running-bandit">
+<h2>Running Bandit<a class="headerlink" href="#running-bandit" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://pypi.org/project/bandit/">Bandit</a> is a Security oriented static analyser for python code.
+Run it using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">bandit</span></code> (it will automatically create a local venv folder).</p>
+</div>
+<div class="section" id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins folders and jobs are defined by singleton instances of classes.
+Each class can define exactly one folder or job. Each class also resides in a unique module.</p>
+<p>The root folder normally is defined in a <code class="docutils literal notranslate"><span class="pre">jobs/__init__.py</span></code> file
+with a class named <code class="docutils literal notranslate"><span class="pre">Folder</span></code> derived from <a class="reference internal" href="api.html#jenni.models.RootFolderBase" title="jenni.models.RootFolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.RootFolderBase</span></code></a>.</p>
+<p>Other Jenkins folders are defined as <code class="docutils literal notranslate"><span class="pre">Folder</span></code> classes
+derived from <a class="reference internal" href="api.html#jenni.models.FolderBase" title="jenni.models.FolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.FolderBase</span></code></a>.</p>
+<p>Jenkins jobs are defined as <code class="docutils literal notranslate"><span class="pre">Job</span></code> classes
+derived from <a class="reference internal" href="api.html#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.JobBase</span></code></a>; however in practice they are normally derived from
+<a class="reference internal" href="api.html#jenni.models.GroovyJobBase" title="jenni.models.GroovyJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.GroovyJobBase</span></code></a>
+or
+<a class="reference internal" href="api.html#jenni.models.PythonPipelineJobBase" title="jenni.models.PythonPipelineJobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">jenni.models.PythonPipelineJobBase</span></code></a>.</p>
+<p>After this, these classes and modules can be statically defined in Python source code files,
+or can be programmatically generated, or any combination of this.</p>
+<p>A Jenkins folder normally maps to a <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file in a directory that is the same as the Jenkins folder path,
+except hyphens are changed to underscores.</p>
+</div>
+<div class="section" id="programmatic-job-generation">
+<h2>Programmatic Job Generation<a class="headerlink" href="#programmatic-job-generation" title="Permalink to this headline">¶</a></h2>
+<p>A folder can programmatically generate new sub-items (jobs/folders) by overriding the <code class="docutils literal notranslate"><span class="pre">yield_items</span></code> method,
+instead of by creating a new Python file for each sub-item.
+The new sub-item is created and added by calling <code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span> <span class="pre">self.yield_sub_item(sub_item_name,</span> <span class="pre">sub_item_class)</span></code>.
+For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># jobs/__init__.py</span>
+<span class="kn">from</span> <span class="nn">jenni.models</span> <span class="kn">import</span> <span class="n">RootFolderBase</span><span class="p">,</span> <span class="n">GroovyJobBase</span>
+
+<span class="k">class</span> <span class="nc">Folder</span><span class="p">(</span><span class="n">RootFolderBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">yield_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">yield_items</span><span class="p">()</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">yield_sub_item</span><span class="p">(</span><span class="s2">&quot;job1&quot;</span><span class="p">,</span> <span class="n">Job</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">GroovyJobBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;echo &#39;hello from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are various method names that start with <code class="docutils literal notranslate"><span class="pre">yield</span></code>, which can all be used to create additional jobs/folder
+at various points, and if overriding them they must always call
+<code class="docutils literal notranslate"><span class="pre">yield</span> <span class="pre">from</span> <span class="pre">super().&lt;method_name&gt;(...)</span></code>, and use <code class="docutils literal notranslate"><span class="pre">yield</span></code> something themselves.</p>
+<p>Please see the customisation hooks below for further information.</p>
+</div>
+<div class="section" id="customisation-hooks">
+<h2>Customisation Hooks<a class="headerlink" href="#customisation-hooks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="folderbase-add-new-job">
+<h3>FolderBase.add_new_job<a class="headerlink" href="#folderbase-add-new-job" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#jenni.models.FolderBase.add_new_job" title="jenni.models.FolderBase.add_new_job"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.add_new_job()</span></code></a> is
+executed after the Python job instance has been created (<code class="docutils literal notranslate"><span class="pre">__init__</span></code> completed).
+It can be used by the parent folder to customise the newly added job.</p>
+<p>For example, you want to repeat the description of the Jenkins folder at the end of the description of every job in it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jenni</span>
+<span class="k">class</span> <span class="nc">Folder</span><span class="p">(</span><span class="n">jenni</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">FolderBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">add_new_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">:</span> <span class="s2">&quot;jenni.models.jobbase.JobBase&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_new_job</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&lt;br/&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="folderbase-add-new-folder">
+<h3>FolderBase.add_new_folder<a class="headerlink" href="#folderbase-add-new-folder" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#jenni.models.FolderBase.add_new_folder" title="jenni.models.FolderBase.add_new_folder"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.add_new_folder()</span></code></a> is
+executed after the Python Folder instance has been created (<code class="docutils literal notranslate"><span class="pre">__init__</span></code> completed).
+It can be used by the parent folder to customise the newly added sub-folder.
+It is similar to <a class="reference internal" href="api.html#jenni.models.FolderBase.add_new_job" title="jenni.models.FolderBase.add_new_job"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.add_new_job()</span></code></a> method.</p>
+<p>For example, you want to add a link to a url in every sub-folder description, but the url depends on the parent folder:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jenni</span>
+<span class="k">class</span> <span class="nc">Folder</span><span class="p">(</span><span class="n">jenni</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">FolderBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">add_new_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sub_folder</span><span class="p">:</span> <span class="s2">&quot;FolderBase&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_new_folder</span><span class="p">(</span><span class="n">sub_folder</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_i_add_link</span><span class="p">():</span>
+            <span class="n">sub_folder</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sub_folder</span><span class="o">.</span><span class="n">descripton</span><span class="si">}</span><span class="s2">&lt;br/&gt;See also </span><span class="si">{</span><span class="n">jenni</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">html_link</span><span class="p">(</span><span class="n">sub_folder</span><span class="o">.</span><span class="n">the_link_url</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="folderbase-yield-items-pre-sub-item">
+<h3>FolderBase.yield_items_pre_sub_item<a class="headerlink" href="#folderbase-yield-items-pre-sub-item" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#jenni.models.FolderBase.yield_items_pre_sub_item" title="jenni.models.FolderBase.yield_items_pre_sub_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.yield_items_pre_sub_item()</span></code></a> is
+called before <a class="reference internal" href="api.html#jenni.models.itembase.ItemBase.yield_items" title="jenni.models.itembase.ItemBase.yield_items"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.itembase.ItemBase.yield_items()</span></code></a> is called.
+It allows you to yield additional items, before the sub-item will yield any items.
+EG you may want to create additional jobs/folders, such that the sub-item can find/use these.</p>
+</div>
+<div class="section" id="folderbase-yield-items-post-sub-item">
+<h3>FolderBase.yield_items_post_sub_item<a class="headerlink" href="#folderbase-yield-items-post-sub-item" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#jenni.models.FolderBase.yield_items_post_sub_item" title="jenni.models.FolderBase.yield_items_post_sub_item"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.yield_items_post_sub_item()</span></code></a> is
+called before <a class="reference internal" href="api.html#jenni.models.itembase.ItemBase.yield_items" title="jenni.models.itembase.ItemBase.yield_items"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.itembase.ItemBase.yield_items()</span></code></a> is called.
+It allows you to yield additional items, after the sub-item has yielded any items.
+EG you may want to create additional jobs/folders, that find/use the sub-item just created.</p>
+</div>
+<div class="section" id="folderbase-sub-item-completed-handler">
+<h3>FolderBase.sub_item_completed_handler<a class="headerlink" href="#folderbase-sub-item-completed-handler" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="api.html#jenni.models.FolderBase.sub_item_completed_handler" title="jenni.models.FolderBase.sub_item_completed_handler"><code class="xref py py-func docutils literal notranslate"><span class="pre">jenni.models.FolderBase.sub_item_completed_handler()</span></code></a> is
+called after a sub-item has completed yielding any items.
+The sub-item can be customised by overriding this method.</p>
+</div>
+<div class="section" id="id2">
+<h3>Summary<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Let folder be a <a class="reference internal" href="api.html#jenni.models.FolderBase" title="jenni.models.FolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FolderBase</span></code></a> instance, and sub_item a (new)
+<a class="reference internal" href="api.html#jenni.models.FolderBase" title="jenni.models.FolderBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">FolderBase</span></code></a> or <a class="reference internal" href="api.html#jenni.models.JobBase" title="jenni.models.JobBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">JobBase</span></code></a> instance to be created,
+then this shows the sequence of calls:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sub_item</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sub_item</span><span class="p">,</span> <span class="n">JobBase</span><span class="p">):</span>
+    <span class="n">folder</span><span class="o">.</span><span class="n">add_new_job</span><span class="p">(</span><span class="n">sub_item</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sub_item</span><span class="p">,</span> <span class="n">FolderBase</span><span class="p">):</span>
+    <span class="n">folder</span><span class="o">.</span><span class="n">add_new_folder</span><span class="p">(</span><span class="n">sub_item</span><span class="p">)</span>
+<span class="k">yield from</span> <span class="n">folder</span><span class="o">.</span><span class="n">yield_items_pre_sub_item</span><span class="p">(</span><span class="n">sub_item</span><span class="p">)</span>
+<span class="k">yield from</span> <span class="n">sub_item</span><span class="o">.</span><span class="n">yield_items</span><span class="p">()</span>
+<span class="k">yield from</span> <span class="n">folder</span><span class="o">.</span><span class="n">yield_items_post_sub_item</span><span class="p">(</span><span class="n">sub_item</span><span class="p">)</span>
+<span class="n">folder</span><span class="o">.</span><span class="n">sub_item_completed_handler</span><span class="p">(</span><span class="n">sub_item</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Jenni</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-use-jenni">Why use Jenni?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-it-work">How does it work?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-will-be-next">What will be next?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#security-warning">Security Warning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-directory-structure">Sample Directory Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cli">CLI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#seed-command">Seed Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-command">Run Command</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#seed-job">Seed Job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-bandit">Running Bandit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#implementation-details">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programmatic-job-generation">Programmatic Job Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customisation-hooks">Customisation Hooks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase-add-new-job">FolderBase.add_new_job</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase-add-new-folder">FolderBase.add_new_folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase-yield-items-pre-sub-item">FolderBase.yield_items_pre_sub_item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase-yield-items-post-sub-item">FolderBase.yield_items_post_sub_item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#folderbase-sub-item-completed-handler">FolderBase.sub_item_completed_handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ex01/index.html">Basic Example</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Jenni's documentation!</a></li>
+      <li>Next: <a href="security.html" title="next chapter">Security</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Wouter Batelaan (Synamedia).
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/introduction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
