@@ -1,0 +1,222 @@
+/*
+ See also: https://docs.gradle.org/current/userguide/more_about_tasks.html
+ */
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+def NORMAL          = "\u001B[0m"
+def BOLD            = "\u001B[1m"
+def ITALIC	        = "\u001B[3m"
+def UNDERLINE       = "\u001B[4m"
+def BLINK           = "\u001B[5m"
+def RAPID_BLINK	    = "\u001B[6m"
+def REVERSE_VIDEO   = "\u001B[7m"
+def INVISIBLE_TEXT  = "\u001B[8m"
+
+def BLACK           = "\u001B[30m"
+def RED             = "\u001B[31m"
+def GREEN           = "\u001B[32m"
+def YELLOW          = "\u001B[33m"
+def BLUE            = "\u001B[34m"
+def MAGENTA         = "\u001B[35m"
+def CYAN            = "\u001B[36m"
+def WHITE           = "\u001B[37m"
+
+def DARK_GRAY       = "\u001B[1;30m"
+def LIGHT_RED       = "\u001B[1;31m"
+def LIGHT_GREEN     = "\u001B[1;32m"
+def LIGHT_YELLOW    = "\u001B[1;33m"
+def LIGHT_BLUE      = "\u001B[1;34m"
+def LIGHT_PURPLE    = "\u001B[1;35m"
+def LIGHT_CYAN      = "\u001B[1;36m"
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs 'src'
+            srcDirs 'vars'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url 'https://repo.jenkins-ci.org/public/'
+    }
+}
+
+dependencies {
+    // To find Groovy version in Jenkins, open the script console and run: println GroovySystem.version
+    // Plugins:
+    // Jenkins.instance.pluginManager.plugins.each { println "${it} ${it.version}" }
+    // Libraries: go to plugins, installed, click on version nr, it will then show library versions
+    // Also, look at the thirdPartyLicenses page of a plugin
+    implementation 'org.codehaus.groovy:groovy:2.4.12'
+    implementation 'org.jenkins-ci.plugins:job-dsl-core:1.77'
+    implementation 'org.yaml:snakeyaml:1.26'
+    implementation 'com.cloudbees:groovy-cps:1.32'
+}
+
+
+//println "rootProject.projectDir = ${rootProject.projectDir}"
+
+String tmp_dir = "${rootProject.projectDir}/tmp"
+boolean in_jenkins = (System.getenv("WORKSPACE") != null)
+
+project.ext.set("test_dir", new File(tmp_dir + "/jenni_output"))
+project.ext.set("ref_dir", new File(tmp_dir + "/jenni_output.ref"))
+project.ext.set("jobdsl_file", new File(tmp_dir + "/jenni_output.groovy"))
+
+// Can be set by using -Pjob=.... on the gradle command line:
+def selected_job_wildcard = project.properties['job']
+
+def jenni_output_helper(Closure jobdsl_generator) {
+    if (project.test_dir.exists()) {
+        println "$project.test_dir exists; emptying it"
+        println "rm -rf $project.test_dir 2>&1".execute().text
+    }
+    mkdir project.test_dir
+    jobdsl_generator()
+    // Process the generated jobdsl to individual xml files for all folders and jobs
+	javaexec {
+	    workingDir = project.test_dir
+	    main = 'javaposse.jobdsl.Run'
+	    classpath(sourceSets.main.runtimeClasspath, ".", "vars")
+	    args project.jobdsl_file.path
+	}
+
+    // remove some annoying things in test mode (not ci) to make comparisons easier:
+    // skip this in Jenkins
+    if (!in_jenkins) {
+        exec { commandLine "sh", "-c", """
+find ${project.test_dir} -type f -name '*.xml' -print0 | xargs -0 \
+perl -i.bak -p -e '
+s{<randomName>choice-parameter-\\d+</randomName>}{<randomName>choice-parameter-NNN</randomName>};
+'
+find ${project.test_dir} -type f -name '*.xml.bak' -print0 | xargs -0 rm
+""" }
+    }
+
+    println "\n#### See output files in $project.test_dir ####"
+    println "##########################################################################"
+
+    def diff_cmd = "diff -dr ${project.ref_dir} ${project.test_dir}"
+    // skip diff-ing with reference output in Jenkins:
+    if (!in_jenkins) {
+        logger.lifecycle("Running: ${diff_cmd}")
+        exec { commandLine "sh", "-c", "${diff_cmd} || true" }
+    } else {
+        logger.warn("Skipping:\n${diff_cmd}")
+    }
+}
+
+def run_jenni_seed(String extra_seed_options="") {
+    def config_dir = "config"
+    def cmd = """PYTHONPATH=config python3 -m jenni -qq --config-dir ${config_dir} seed -o ${project.test_dir}.groovy $extra_seed_options"""
+    logger.lifecycle("Running: $cmd")
+    exec { commandLine "sh", "-c", cmd }
+}
+
+tasks.register("generate") {
+    group = 'Jenni'
+    description = "Generate Jenkins XML files using Jenni via jobdsl generation"
+    dependsOn("build")
+    doLast {
+        jenni_output_helper() {
+            run_jenni_seed()
+        }
+    }
+}
+
+tasks.register("deploy") {
+    group = 'Jenni'
+    description = "Updates the Jenkins job specified with the -Pjob=xxx/yyy argument. Can include ** and * wildcards."
+    doLast {
+        for (e in [
+            "jenkins_url": "https://..../",
+            "jenkins_user": "<username>",
+            "jenkins_api_token": "<api_token>",
+        ]) {
+            assert project.hasProperty(e.key): "Please define ${e.key} = ${e.value} in a gradle.properties file"
+        }
+        assert jenkins_url[-1] == '/': "Please ensure jenkins_url ends with a slash"
+        assert project.hasProperty("job"): """
+Please use -Pjob=path/to/jenkins/job,... on the command line.
+Can include ** and * wildcards. EG -Pjob=**/cidev/builds,**/cidev/tests
+"""
+        assert selected_job_wildcard != null
+
+        def files = []
+        for (wildcard in selected_job_wildcard.split(",")) {
+            files += new FileNameFinder().getFileNames(project.test_dir.absolutePath, "${wildcard}.xml")
+        }
+        assert !files.empty, "No jobs were matched using wildcard (${selected_job_wildcard})"
+
+        for (job_xml_config_file in files) {
+            println "\nFile: $job_xml_config_file"
+            String selected_job = job_xml_config_file.substring(project.test_dir.absolutePath.length() + 1).replace('.xml', '')
+            def job_path = selected_job.replaceAll("/", "/job/")
+            def job_url = "${jenkins_url}job/${job_path}/"
+            def job_exists = check_jenkins_job_exists(job_url)
+            def cmd = ['curl', '-XPOST',
+                       '--silent',
+                       '--show-error',
+                       '--insecure',
+                       '-u', "${jenkins_user}:${jenkins_api_token}",
+                       '--data-binary', "@$job_xml_config_file",
+                       '-H', 'Content-Type:text/xml']
+            if (job_exists) {
+                cmd << "${job_url}config.xml"
+            } else {
+                def job_pathobject = java.nio.file.Paths.get(selected_job)
+                def job_basename = job_pathobject.getName(job_pathobject.nameCount - 1)
+                def folder_path = job_pathobject.parent.toString().replaceAll("/", "/job/")
+                cmd << "${jenkins_url}job/${folder_path}/createItem?name=${job_basename}"
+            }
+            println "Executing: ${cmd.join(' ')}"
+            exec { commandLine cmd }
+            logger.warn "${YELLOW}Tried to ${job_exists ? 'configure' : 'create'} it."
+            //        logger.warn "${YELLOW}Tried to ${job_exists ? 'configure' : 'create'} it. If Error 404 Not Found, then create the job as an empty pipeline job first."
+            logger.warn "${YELLOW}The job  : ${LIGHT_BLUE}${job_url}${NORMAL}"
+            logger.warn "${YELLOW}See it   : ${LIGHT_BLUE}${job_url}configure${NORMAL}"
+            logger.warn "${YELLOW}Build it : ${LIGHT_BLUE}${job_url}build${NORMAL}"
+        }
+    }
+}
+
+def check_jenkins_job_exists(String job_url) {
+    def cmd = ['curl',
+               '--silent',
+               '--insecure',
+               '--fail',
+               '-u', "${jenkins_user}:${jenkins_api_token}",
+               "${job_url}config.xml",
+               '-o', '/dev/null']
+    println "Executing: ${cmd.join(' ')}"
+    try {
+        println exec { commandLine cmd }
+    } catch(Exception ex) {
+        println "$ex"
+        return false
+    }
+    return true
+}
+
+// skip this in Jenkins
+if (!in_jenkins) {
+    tasks.register("mkref") {
+        group = 'Jenni'
+        description = """Updates $project.ref_dir from $project.test_dir
+as a baseline for later generate task runs to diff with."""
+        doLast {
+            def cmd = ["rsync", "-ra", "--delete", "${project.test_dir}/", "${project.ref_dir}/"]
+            println "Running: ${cmd.join(' ')}"
+            exec { commandLine cmd }
+            cmd = ["cp", "-a", "${project.test_dir}.groovy", "${project.ref_dir}.groovy"]
+            println "Running: ${cmd.join(' ')}"
+            exec { commandLine cmd }
+        }
+    }
+}
